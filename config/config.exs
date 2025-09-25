@@ -10,6 +10,26 @@
 import Config
 
 # Configure Mix tasks and generators
+config :rank_tracker,
+  ecto_repos: [RankTracker.Repo],
+  generators: [context_app: :rank_tracker]
+
+config :rank_tracker_web,
+  ecto_repos: [RankTracker.Repo],
+  generators: [context_app: :rank_tracker]
+
+# Configures the endpoint
+config :rank_tracker_web, RankTrackerWeb.Endpoint,
+  url: [host: "localhost"],
+  adapter: Bandit.PhoenixAdapter,
+  render_errors: [
+    formats: [html: RankTrackerWeb.ErrorHTML, json: RankTrackerWeb.ErrorJSON],
+    layout: false
+  ],
+  pubsub_server: RankTracker.PubSub,
+  live_view: [signing_salt: "A//BKf/K"]
+
+# Configure Mix tasks and generators
 config :hello_app,
   ecto_repos: [HelloApp.Repo],
   generators: [context_app: :hello_app]
@@ -46,6 +66,12 @@ config :esbuild,
       ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
     cd: Path.expand("../apps/hello_app_web/assets", __DIR__),
     env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}
+  ],
+  rank_tracker_web: [
+    args:
+      ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
+    cd: Path.expand("../apps/rank_tracker_web/assets", __DIR__),
+    env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}
   ]
 
 # Configure tailwind (the version is required)
@@ -57,6 +83,13 @@ config :tailwind,
       --output=priv/static/assets/css/app.css
     ),
     cd: Path.expand("../apps/hello_app_web", __DIR__)
+  ],
+  rank_tracker_web: [
+    args: ~w(
+      --input=assets/css/app.css
+      --output=priv/static/assets/css/app.css
+    ),
+    cd: Path.expand("../apps/rank_tracker_web", __DIR__)
   ]
 
 # Configures Elixir's Logger

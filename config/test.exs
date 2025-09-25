@@ -5,6 +5,26 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
+config :rank_tracker, RankTracker.Repo,
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  database: "rank_tracker_test#{System.get_env("MIX_TEST_PARTITION")}",
+  pool: Ecto.Adapters.SQL.Sandbox,
+  pool_size: System.schedulers_online() * 2
+
+# We don't run a server during test. If one is required,
+# you can enable the server option below.
+config :rank_tracker_web, RankTrackerWeb.Endpoint,
+  http: [ip: {127, 0, 0, 1}, port: 4002],
+  secret_key_base: "p17Lswydrlq7Z2BWJwcyehBf0aMdvePq3F3A9weIz9sttHW351Mox4SFFs+XI1aS",
+  server: false
+
+# Configure your database
+#
+# The MIX_TEST_PARTITION environment variable can be used
+# to provide built-in test partitioning in CI environment.
+# Run `mix help test` for more information.
 config :hello_app, HelloApp.Repo,
   database: Path.expand("../hello_app_test.db", __DIR__),
   pool_size: 5,
