@@ -38,10 +38,9 @@ if config_env() == :prod do
 
   config :rank_tracker_web, RankTrackerWeb.Endpoint,
     http: [
-      # Enable IPv6 and bind on all interfaces.
-      # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
-      ip: {0, 0, 0, 0, 0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4000")
+      # Enable IPv4 and bind on all interfaces for Fly.io
+      ip: {0, 0, 0, 0},
+      port: String.to_integer(System.get_env("RANK_TRACKER_PORT") || "8080")
     ],
     secret_key_base: secret_key_base
 
@@ -133,7 +132,7 @@ if config_env() == :prod do
       # Enable IPv4 and bind on all interfaces for Fly.io
       # Set it to {127, 0, 0, 1} for local network only access.
       ip: {0, 0, 0, 0},
-      port: String.to_integer(System.get_env("PORT") || "4000")
+      port: String.to_integer(System.get_env("PORT") || "8080")
     ],
     secret_key_base: secret_key_base
 

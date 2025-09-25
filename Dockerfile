@@ -39,6 +39,8 @@ ENV MIX_ENV="prod"
 COPY mix.exs mix.lock ./
 COPY apps/hello_app/mix.exs ./apps/hello_app/mix.exs
 COPY apps/hello_app_web/mix.exs ./apps/hello_app_web/mix.exs
+COPY apps/rank_tracker/mix.exs ./apps/rank_tracker/mix.exs
+COPY apps/rank_tracker_web/mix.exs ./apps/rank_tracker_web/mix.exs
 RUN mix deps.get --only $MIX_ENV
 RUN mkdir config
 
@@ -52,17 +54,23 @@ RUN mix assets.setup
 
 COPY apps/hello_app/priv apps/hello_app/priv
 COPY apps/hello_app_web/priv apps/hello_app_web/priv
+COPY apps/rank_tracker/priv apps/rank_tracker/priv
+COPY apps/rank_tracker_web/priv apps/rank_tracker_web/priv
 
 COPY apps/hello_app/lib apps/hello_app/lib
 COPY apps/hello_app_web/lib apps/hello_app_web/lib
+COPY apps/rank_tracker/lib apps/rank_tracker/lib
+COPY apps/rank_tracker_web/lib apps/rank_tracker_web/lib
 
 # Compile the release
 RUN mix compile
 
 COPY apps/hello_app_web/assets apps/hello_app_web/assets
+COPY apps/rank_tracker_web/assets apps/rank_tracker_web/assets
 
-# compile assets
-RUN mix assets.deploy
+# compile assets for all web apps
+RUN mix assets.deploy hello_app_web
+RUN mix assets.deploy rank_tracker_web
 
 # Changes to config/runtime.exs don't require recompiling the code
 COPY config/runtime.exs config/

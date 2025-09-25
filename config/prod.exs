@@ -6,7 +6,7 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :rank_tracker_web, RankTrackerWeb.Endpoint,
-  url: [host: "example.com", port: 80],
+  url: [host: "hello-app-web.fly.dev", port: 8080, scheme: "https"],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Note we also include the path to a cache manifest
@@ -15,7 +15,7 @@ config :rank_tracker_web, RankTrackerWeb.Endpoint,
 # which you should run after static files are built and
 # before starting your production server.
 config :hello_app_web, HelloAppWeb.Endpoint,
-  url: [host: "hello-app-web.fly.dev", port: 8080, scheme: "https"],
+  url: [host: "hello-app-web.fly.dev", port: 443, scheme: "https"],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Configures Swoosh API Client

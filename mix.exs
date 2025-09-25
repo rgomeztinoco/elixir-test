@@ -13,7 +13,9 @@ defmodule HelloApp.Umbrella.MixProject do
         hello_app_umbrella: [
           applications: [
             hello_app: :permanent,
-            hello_app_web: :permanent
+            hello_app_web: :permanent,
+            rank_tracker: :permanent,
+            rank_tracker_web: :permanent
           ]
         ]
       ]
